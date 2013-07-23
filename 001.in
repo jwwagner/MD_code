@@ -1,0 +1,12 @@
+0	//Restart_flag
+2	//Ensemble_flag
+0   //Integrator_flag
+
+298.0	//temp 	(K)
+0.7	//pressure(MPa)
+
+10000		//N_steps
+0.001	//delta_T (ps)
+
+2.00	//cutoff	(nm)
+1.00	//neighborlist factor
