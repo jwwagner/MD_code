@@ -133,7 +133,7 @@ void initialize_topology_from_file(void)
         {
             fgets(line,80,fr);
             //printf("%s \n", line);
-            sscanf(line, "%s %lf %lf %lf %lf %lf %lf %lf", &Prototype[i].type, &Prototype[i].sigma, &Prototype[i].epsilon, &Prototype[i].x_rel, &Prototype[i].y_rel, &Prototype[i].z_rel, &Prototype[i].charge, &Prototype[i].mass);
+            sscanf(line, "%s %lf %lf %lf %lf %lf %lf %lf", Prototype[i].type, &Prototype[i].sigma, &Prototype[i].epsilon, &Prototype[i].x_rel, &Prototype[i].y_rel, &Prototype[i].z_rel, &Prototype[i].charge, &Prototype[i].mass);
             printf("read %s %lf %lf %lf %lf %lf %lf %lf \n", Prototype[i].type, Prototype[i].sigma, Prototype[i].epsilon, Prototype[i].x_rel, Prototype[i].y_rel, Prototype[i].z_rel, Prototype[i].charge, Prototype[i].mass);
 
             //scale epsilon over kbt
@@ -286,7 +286,7 @@ void initialize_coordinates_from_file(void)
     for(i = 0; i < System.num_particles; i++)
     {
         fgets(line,80,fr);
-        sscanf(line, "%s %lf %lf %lf", &type, &Particle[i].x, &Particle[i].y, &Particle[i].z);
+        sscanf(line, "%s %lf %lf %lf", type, &Particle[i].x, &Particle[i].y, &Particle[i].z);
 
         printf("LINE%d: %s \t %lf \t %lf \t %lf\n", i, type, Particle[i].x, Particle[i].y, Particle[i].z);
     }

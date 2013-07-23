@@ -38,7 +38,7 @@ void initialize_energy_output(void)
 
     fr = fopen("energy.txt", "w+");
     fprintf(fr, "#\t Total\t Kinetic\t Potential\t Enthalpy\n");
-    fprintf(fr, "%d \t %lf \t %lf \t %lf\n", System.counter, (System.kinetic_energy + System.potential_energy), System.kinetic_energy, System.potential_energy, (System.kinetic_energy + System.potential_energy + System.actual_pressure * System.volume));
+    fprintf(fr, "%d \t %lf \t %lf \t %lf\t %lf\n", System.counter, (System.kinetic_energy + System.potential_energy), System.kinetic_energy, System.potential_energy, (System.kinetic_energy + System.potential_energy + System.actual_pressure * System.volume));
 
     fclose(fr);
 

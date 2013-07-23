@@ -1,0 +1,7 @@
+1		//molecule_types
+
+1	150	//atoms/mol	//copies
+
+Ar	0.34	120.0	0.000	0.000	0.000	0.004	39.948
+
+//type	sigma(nm)	e/kb(K)	x_rel	y_rel	z_rel	charge	mass(amu)
