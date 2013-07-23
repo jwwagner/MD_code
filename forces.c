@@ -23,7 +23,23 @@ void calc_forces(void)
 	printf("calculating forces %d\n", System.counter);
 	zero_forces_and_potential();
 	//printf("IMF\n");
-	compute_IMF_with_neighbors();
+	switch(System.parallel_flag)
+	{
+		case 1:
+			compute_IMF_with_neighbors_OMP();
+			break;
+		
+		case 2:
+			compute_IMF_with_neighbors_MPI();
+			
+		case 3:
+			compute_IMF_with_neighbors_OMP_MPI();
+	
+		case 0:
+		default:
+		compute_IMF_with_neighbors();
+		break;
+	}
 	//printf("total energy\n");
     total_energy();
 //	nebrNow = check_neighbouring_list();
@@ -462,3 +478,93 @@ void total_energy(void)
     }
     else energy_output();
 }
+
+
+void compute_IMF_with_neighbors_OMP(void)
+{
+   //for each cell
+    //printf("total cells = %d\n", System.total_cells);
+    int i;
+    
+    #pragma omp parallel for private(i)
+    for(i = 0; i < System.total_cells; i++)
+    {
+    	int th_id = omp_get_thread_num();
+    	printf("%d\n", th_id);
+    	fflush(stdout);
+    	
+    	//declare loop variables
+    	int w, x, y, z;
+    	int plus_x, plus_y, plus_z;
+    	int minus_y, minus_z;
+    
+   		if(Neighbor[i].length != 0)
+        {
+
+        //printf("computing same cell forces for cell %d\n", i);
+        //calculate forces with_in the same cell
+        compute_IMF_same_cell(i);
+        //printf("computed same cell forces for cell %d\n", i);
+        //calculate neighboring cell interactions via template
+
+        //determine cell of i
+        x = i % System.cellx;
+
+        w = i - x;
+        if(w > 0) y = (w / System.cellx) % System.celly;
+        else y = 0;
+
+        w -= y*System.cellx;
+        if(w > 0) z = w / (System.cellx * System.celly);
+        else z = 0;
+
+        //go through neighbor list
+        //increase x
+        if(x == System.cellx - 1) plus_x = 1 - System.cellx;
+        else plus_x = 1;
+
+        //if(x == 0) minus_x = System.cellx - 1;
+        //else minus_x = -1;
+
+        if(y == System.celly - 1) plus_y = System.cellx *(1 - System.celly);
+        else plus_y = System.cellx;
+
+        if(y == 0) minus_y = System.cellx * (System.celly - 1);
+        else minus_y = - System.cellx;
+
+        if(z == System.cellz - 1) plus_z = System.cellx * System.celly * (1 - System.cellz);
+        else plus_z = System.cellx * System.celly;
+
+        if(z == 0) minus_z = System.cellx * System.celly * (System.cellz - 1);
+        else minus_z = - System.cellx * System.celly;
+
+        //go through the 13 combinations of neighbor cells
+
+        compute_IMF_in_cells(i, i + plus_x);                    //x+1   y   z   1
+        compute_IMF_in_cells(i, i + plus_x + plus_y);           //x+1   y+1 z   2
+        compute_IMF_in_cells(i, i + plus_x + plus_z);           //x+1   y   z+1 3
+        compute_IMF_in_cells(i, i + plus_x + minus_y);          //x+1   y-1 z   4
+        compute_IMF_in_cells(i, i + plus_x + minus_z);          //x+1   y   z-1 5
+        compute_IMF_in_cells(i, i + plus_x + plus_y + minus_z); //x+1   y+1 z-1 6
+        compute_IMF_in_cells(i, i + plus_x + minus_y + plus_z); //x+1   y-1 z+1 7
+        compute_IMF_in_cells(i, i + plus_x + minus_y + minus_z);//x+1   y-1 z-1 8
+        compute_IMF_in_cells(i, i + plus_x + plus_y + plus_z);  //x+1   y+1 z+1 9
+        compute_IMF_in_cells(i, i + plus_y + plus_z);           //x     y+1 z+1 10
+        compute_IMF_in_cells(i, i + plus_y);                    //x     y+1 z   11d
+        compute_IMF_in_cells(i, i + plus_y + minus_z);          //x     y+1 z-1 12
+        compute_IMF_in_cells(i, i + plus_z);                    //x     y   z+1 13
+        }
+    }
+    System.actual_pressure += 2.0 * System.kinetic_energy;
+    System.actual_pressure /= (3.0 * System.volume);
+
+}
+
+void compute_IMF_with_neighbors_MPI( void )
+{
+}
+			
+void compute_IMF_with_neighbors_OMP_MPI( void )
+{
+}
+	

@@ -2,6 +2,7 @@
 // By Jacob Wagner
 
 #include "mpi.h"
+#include "omp.h"
 #include "headers.h"
 
 //global variables

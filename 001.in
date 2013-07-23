@@ -10,3 +10,5 @@
 
 2.00	//cutoff	(nm)
 1.00	//neighborlist factor
+
+1	//MPI and OpenMP flag (0 = none, 1 = OpenMP, 2 = MPI, 3 = Both)

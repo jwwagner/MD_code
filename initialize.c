@@ -37,7 +37,7 @@ void read_controls(void)
     sscanf(line, "%d", &System.integrator);
 
     fgets(line,80,fr);
-    sscanf(line, "%s", &junk);
+    //sscanf(line, "%s", &junk);
 
     fgets(line,80,fr);
     sscanf(line, "%lf", &System.temp);
@@ -45,7 +45,7 @@ void read_controls(void)
     sscanf(line, "%lf", &System.pressure);
 
     fgets(line,80,fr);
-    sscanf(line, "%s", &junk);
+    //sscanf(line, "%s", &junk);
 
     fgets(line,80,fr);
     sscanf(line, "%d", &System.n_steps);
@@ -53,12 +53,19 @@ void read_controls(void)
     sscanf(line, "%lf", &System.delta_t);
 
     fgets(line,80,fr);
-    sscanf(line, "%s", &junk);
+    //sscanf(line, "%s", &junk);
 
     fgets(line,80,fr);
     sscanf(line, "%lf", &System.cutoff);
     fgets(line,80,fr);
     sscanf(line, "%lf", &System.neighbor_factor);
+
+	fgets(line,80,fr);
+    //sscanf(line, "%s", &junk);
+
+	fgets(line,80,fr);
+    sscanf(line, "%d", &System.parallel_flag);
+
 
     fclose(fr);
 

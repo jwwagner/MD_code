@@ -12,6 +12,9 @@ void    compute_IMF_same_cell(int);     //force.c
 void    compute_IMF_in_cells(int, int); //force.c
 void    total_energy(void);             //force.c
 void    zero_forces_and_potential(void);// forces.c
+void compute_IMF_with_neighbors_OMP(void);
+void compute_IMF_with_neighbors_MPI(void);
+void compute_IMF_with_neighbors_OMP_MPI(void);
 
 //neighborlist
 void    build_neighbor_list(void); //forces.c

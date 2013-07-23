@@ -42,6 +42,7 @@ typedef struct {
     int total_cells, cellx, celly, cellz;
     int counter;
     int integrator;
+    int parallel_flag;
 
     double nose_velocity, pressure_s, pressure_v;
     double kb, nose_hoover, nose_Q, npt_pressure, npt_mass, npt_nose;
